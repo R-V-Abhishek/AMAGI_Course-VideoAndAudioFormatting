@@ -1,0 +1,21 @@
+{
+  "name": "vibgyor-rainbow-generator",
+  "version": "1.0.0",
+  "description": "Generate VIBGYOR rainbow images using Node.js",
+  "main": "Q1_node_jimp.js",
+  "scripts": {
+    "start": "node Q1_node_jimp.js",
+    "generate": "node Q1_node_jimp.js"
+  },
+  "dependencies": {
+    "jimp": "^0.22.12"
+  },
+  "keywords": [
+    "rainbow",
+    "vibgyor",
+    "image-generation",
+    "nodejs"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
