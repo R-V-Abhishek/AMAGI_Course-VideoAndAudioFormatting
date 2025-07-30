@@ -1,6 +1,7 @@
 import numpy as np
 import sounddevice as sd
 from scipy.signal import butter, lfilter
+from scipy.io.wavfile import write
 
 # Parameters
 duration = 5.0
@@ -33,7 +34,7 @@ if max_amplitude > 0:
 
 
 output = volume * mix
-
+write("tanpura_output.wav", sampling_rate, (output * 32767).astype(np.int16))
 # Ensure output is within valid range [-1, 1]
 output = np.clip(output, -1.0, 1.0)
 
