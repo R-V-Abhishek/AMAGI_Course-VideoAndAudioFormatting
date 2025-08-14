@@ -1,0 +1,29 @@
+#EXTM3U
+#EXT-X-VERSION:7
+#EXT-X-TARGETDURATION:6
+#EXT-X-MEDIA-SEQUENCE:32479
+#EXT-X-KEY:METHOD=AES-128,URI="https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/key_e5awysz6g4.txt"
+#EXT-X-CUE-OUT-CONT: 150.016495/719.000000
+#EXTINF:6.006000,
+https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/seg_0032479.ts
+#EXT-X-KEY:METHOD=AES-128,URI="https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/key_exrs4tfzl6.txt"
+#EXT-X-CUE-OUT-CONT: 156.022491/719.000000
+#EXTINF:6.006000,
+https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/seg_0032480.ts
+#EXT-X-KEY:METHOD=AES-128,URI="https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/key_g3u7kvtssp.txt"
+#EXT-X-CUE-OUT-CONT: 162.028488/719.000000
+#EXTINF:5.972633,
+https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/seg_0032481.ts
+#EXT-X-KEY:METHOD=AES-128,URI="https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/key_sammgow1rd.txt"
+#EXT-X-CUE-OUT-CONT: 168.001114/719.000000
+#EXTINF:6.006000,
+https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/seg_0032482.ts
+#EXT-X-KEY:METHOD=AES-128,URI="https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/key_2nvx5je6de.txt"
+#EXT-X-CUE-OUT-CONT: 174.007111/719.000000
+#EXTINF:6.006000,
+https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/seg_0032483.ts
+#EXT-X-KEY:METHOD=AES-128,URI="https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/key_bwejo5itrd.txt"
+#EXT-X-PROGRAM-DATE-TIME:2025-08-13T12:34:52.527+00:00
+#EXT-X-CUE-OUT-CONT: 180.013107/719.000000
+#EXTINF:6.006000,
+https://dst7ty264hqww.cloudfront.net/LH235/720p-hlsv3-ts/seg_0032484.ts

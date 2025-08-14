@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Simple HLS Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    video { width: 100%; max-width: 900px; height: auto; background: #000; margin-top: 1rem; }
+    .input-container { margin-bottom: 1rem; }
+    input[type="url"] { width: 70%; padding: 8px; margin-right: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 8px 16px; background: #007acc; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #005999; }
+    .status { margin-top: 10px; padding: 8px; border-radius: 4px; }
+    .error { background-color: #fee; color: #c33; border: 1px solid #fcc; }
+    .success { background-color: #efe; color: #363; border: 1px solid #cfc; }
+  </style>
+</head>
+<body>
+  <h1>HLS Demo Player</h1>
+  
+  <div class="input-container">
+    <input type="url" id="urlInput" placeholder="Enter HLS stream URL (e.g., main.m3u8 or http://localhost:8000/main.m3u8)" value="main.m3u8" />
+    <button onclick="loadVideo()">Load Video</button>
+  </div>
+  
+  <div id="status"></div>
+  <video id="video" controls muted playsinline></video>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById('video');
+    const urlInput = document.getElementById('urlInput');
+    const statusDiv = document.getElementById('status');
+    let hls = null;
+
+    function showStatus(message, isError = false) {
+      statusDiv.innerHTML = message;
+      statusDiv.className = `status ${isError ? 'error' : 'success'}`;
+      if (!isError) {
+        setTimeout(() => {
+          statusDiv.innerHTML = '';
+          statusDiv.className = '';
+        }, 5000);
+      }
+    }
+
+    function loadVideo() {
+      const src = urlInput.value.trim();
+      if (!src) {
+        showStatus('Please enter a valid URL', true);
+        return;
+      }
+
+      showStatus('Loading video...');
+      console.log('Attempting to load:', src);
+
+      // Clean up previous HLS instance
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+
+      // Reset video
+      video.src = '';
+      video.load();
+
+      if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        // Safari (iOS/macOS) plays HLS natively
+        console.log('Using native HLS support');
+        video.src = src;
+        
+        video.addEventListener('loadstart', () => showStatus('Loading manifest...'));
+        video.addEventListener('loadedmetadata', () => showStatus('Metadata loaded, ready to play'));
+        video.addEventListener('error', (e) => {
+          console.error('Video error:', e);
+          showStatus(`Video Error: ${video.error ? video.error.message : 'Unknown error'}`, true);
+        });
+        
+      } else if (window.Hls && Hls.isSupported()) {
+        console.log('Using hls.js');
+        
+        // Configure HLS with better settings
+        const config = {
+          debug: true,
+          enableWorker: true,
+          lowLatencyMode: false,
+          backBufferLength: 90
+        };
+        
+        hls = new Hls(config);
+        
+        hls.on(Hls.Events.MEDIA_ATTACHING, () => {
+          console.log('Media attaching...');
+        });
+        
+        hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+          console.log('Media attached, loading source...');
+          showStatus('Media attached, loading manifest...');
+        });
+        
+        hls.on(Hls.Events.MANIFEST_LOADING, () => {
+          console.log('Manifest loading...');
+          showStatus('Loading HLS manifest...');
+        });
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+          console.log('Manifest parsed:', data);
+          showStatus(`HLS manifest loaded successfully. ${data.levels.length} quality levels found.`);
+          
+          // Try to play the video
+          video.play().then(() => {
+            showStatus('Video playing successfully!');
+          }).catch(e => {
+            console.log('Autoplay prevented or failed:', e);
+            showStatus('Video loaded. Click play button to start.');
+          });
+        });
+        
+        hls.on(Hls.Events.LEVEL_LOADED, (event, data) => {
+          console.log('Level loaded:', data);
+        });
+        
+        hls.on(Hls.Events.FRAG_LOADED, (event, data) => {
+          console.log('Fragment loaded:', data.frag.url);
+        });
+        
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error('[hls.js error]', data);
+          
+          let errorMsg = 'HLS Error: ';
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            errorMsg += `Network error - ${data.details}. Check if the URL is correct and the server is running.`;
+          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            errorMsg += `Media error - ${data.details}`;
+          } else {
+            errorMsg += data.details || 'Unknown error';
+          }
+          
+          showStatus(errorMsg, true);
+          
+          // Try to recover from some errors
+          if (data.fatal) {
+            switch(data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.log('Trying to recover from network error...');
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log('Trying to recover from media error...');
+                hls.recoverMediaError();
+                break;
+              default:
+                console.log('Cannot recover from this error');
+                break;
+            }
+          }
+        });
+        
+        // Attach media first, then load source
+        hls.attachMedia(video);
+        hls.loadSource(src);
+        
+      } else {
+        showStatus('HLS is not supported in this browser', true);
+      }
+    }
+
+    // Don't auto-load on page load, wait for user action
+    // window.addEventListener('load', loadVideo);
+
+    // Allow Enter key to load video
+    urlInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        loadVideo();
+      }
+    });
+
+    // Add some debugging info
+    console.log('HLS.js version:', window.Hls ? Hls.version : 'Not loaded');
+    console.log('Native HLS support:', video.canPlayType('application/vnd.apple.mpegurl'));
+  </script>
+</body>
+</html>
