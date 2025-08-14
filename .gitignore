@@ -13,6 +13,7 @@ output.yuv
 vibgyor_*.png
 vibgyor_*.ppm
 vibgyor_viewer.html
+*.h264
 
 # Node.js
 node_modules/
