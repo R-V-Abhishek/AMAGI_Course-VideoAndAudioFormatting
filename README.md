@@ -61,13 +61,30 @@ Implement Huffman compression and entropy tests in Python.
 - `Assignment Lecture 2/hoffman_compression.py` - Huffman coding
 - `Assignment Lecture 2/Entropy_test.py` - Entropy calculation
 
-### 6. Key Management & Encryption
+### 6. Video Metadata with AI (AI Lecture)
+Advanced video analysis using machine learning models for metadata extraction and scene detection.
+
+**Files:**
+- `Video Metadata with AI Lecture/segment2_cpu_only_lab.ipynb` - AI-powered text/image analysis lab
+- `Video Metadata with AI Lecture/segment3_pyscenedetect_v3.ipynb` - Scene detection and video segmentation
+
+**Features:**
+- Text similarity analysis using sentence transformers
+- Named Entity Recognition (NER) with Transformers
+- Image classification with Vision Transformers (ViT)
+- Text sentiment analysis
+- Text classification with embeddings
+- K-means clustering for text/image embeddings
+- Scene detection using PySceneDetect
+- Video frame extraction and analysis
+
+### 7. Key Management & Encryption
 Work with binary keys for encryption or DRM.
 
 **Files:**
 - `key.bin` - Example binary key file
 
-### 7. Video & Audio File Handling
+### 8. Video & Audio File Handling
 Work with various formats: `.mp4`, `.mov`, `.h264`, `.ts`, `.yuv`, `.rgb`, and more.
 
 **Files:**
@@ -76,10 +93,26 @@ Work with various formats: `.mp4`, `.mov`, `.h264`, `.ts`, `.yuv`, `.rgb`, and m
 
 ## Requirements
 
-### Python Projects
+### Installation
+Install all dependencies using the requirements file:
 ```bash
-pip install numpy pillow sounddevice scipy
+pip install -r requirements.txt
 ```
+
+### Python Dependencies
+The project uses the following main libraries:
+- **NumPy** - Numerical computing and array operations
+- **SoundDevice** - Audio I/O and playback
+- **SciPy** - Signal processing and scientific computing
+- **Pillow (PIL)** - Image processing and manipulation
+- **PyTorch** - Deep learning framework
+- **Transformers** - Hugging Face transformers for NLP/Vision AI
+- **Sentence-Transformers** - Text embedding models
+- **Scikit-learn** - Machine learning utilities
+- **Matplotlib** - Data visualization and plotting
+- **Requests** - HTTP requests for web APIs
+- **OpenCV-Python** - Computer vision and video processing
+- **PySceneDetect** - Video scene detection and analysis
 
 ### Node.js Projects
 ```bash
@@ -107,6 +140,18 @@ python "Assignment 1.4 and 1.5 and 1.6/Play_440hz.py"
 
 # Resample audio file
 python "Assignment 1.4 and 1.5 and 1.6/Change_Sampling_rate.py"
+```
+
+### Video Metadata with AI
+```bash
+# Start Jupyter for AI labs
+jupyter notebook "Video Metadata with AI Lecture/"
+
+# Run individual notebooks for:
+# - Text similarity and clustering
+# - Named Entity Recognition  
+# - Image classification with ViT
+# - Scene detection and video analysis
 ```
 
 ## Technical Details

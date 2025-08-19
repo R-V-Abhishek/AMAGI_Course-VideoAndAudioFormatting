@@ -44,6 +44,24 @@ wheels/
 .installed.cfg
 *.egg
 
+# Virtual environments
+venv/
+env/
+my_env/
+.env
+*.env
+
+# Machine Learning / AI models
+*.pth
+*.pt
+*.pkl
+*.model
+models/
+checkpoints/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
 # IDE
 .vscode/
 .idea/

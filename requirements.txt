@@ -1,0 +1,12 @@
+numpy
+sounddevice
+scipy
+pillow
+torch
+transformers
+sentence-transformers
+scikit-learn
+matplotlib
+requests
+opencv-python
+scenedetect
